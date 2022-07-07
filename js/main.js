@@ -11,32 +11,44 @@ function getCocktail(){
     .then(data=> {
         let randomDrink = data.drinks[Math.floor(Math.random()*data.drinks.length)]
         console.log(randomDrink)
+        document.querySelector("h3").innerText = 'For your drink you will need:'
+        document.querySelector("h4").innerText = 'Instructions'
+
         document.querySelector("img").src = randomDrink.strDrinkThumb
         document.querySelector("h2").innerText = randomDrink.strDrink
-        document.querySelector("h3").innerText = randomDrink.strInstructions
+        document.querySelector("#how-to").innerText = randomDrink.strInstructions
+
         Object.keys(randomDrink).forEach(key => {
             if(key.includes("Ingredient")){
                 let value = randomDrink[key]
                 if(value != null){
-                    document.querySelector("#ingredients").innerText += value + "\n"
-                    console.log(value)
+                    //make a new list elements
+                    const node = document.createElement("li");
+                    const img = document.createElement("img")
+                    img.src = `https://www.thecocktaildb.com/images/ingredients/${value}-Medium.png`
+                    img.className = 'single-ingredient';
+                    img.alt = value
+                    console.log(node)
+                    const textnode = document.createTextNode(value);
+                    node.appendChild(textnode);
+                    
+                    //adding ingredients to the list and display them in the dom
+                    
+                    document.getElementById("ingredients").appendChild(node);
+                    node.appendChild(img);
+                    
+                    console.log('#ingredients')
+
                 }
-                
-                
-                
             }
             
         })
-        // for(i=1;i<=20;i++){
-        //     if(randomDrink.strIngredient[i]){
-        //         console.log(randomDrink.strIngredient)
-        //     }
-            
-        // }
-    
+
         
     })
     .catch(err=> {
         console.log(`error ${err}`)
     })
+ 
 }
+
